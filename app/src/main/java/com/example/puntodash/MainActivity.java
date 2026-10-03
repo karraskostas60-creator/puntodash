@@ -7,6 +7,7 @@ import android.graphics.*;
 import android.graphics.drawable.*;
 import android.media.*;
 import android.content.*;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.provider.Settings;
 import android.view.*;
@@ -105,7 +106,7 @@ public class MainActivity extends Activity {
             // Left radio preview
             rect(c,pad,top,pad+leftW,top+250,Color.rgb(22,29,37),8); txt(c,"FM",pad+18,top+34,14,Color.LTGRAY,Paint.Align.LEFT,false); txt(c,frequency+" MHz",pad+leftW/2,top+82,32,Color.WHITE,Paint.Align.CENTER,false); txt(c,"ΔΙΚΟ ΜΟΥ RADIO",pad+leftW/2,top+108,13,Color.LTGRAY,Paint.Align.CENTER,true);
             button(c,pad+16,top+132,pad+82,top+184,"◀",false,()->radioAction("SEEK-") ); button(c,pad+90,top+132,pad+156,top+184,"−",false,()->radioAction("TUNE-") ); button(c,pad+164,top+132,pad+230,top+184,"+",false,()->radioAction("TUNE+") ); button(c,pad+238,top+132,pad+leftW-16,top+184,"▶",false,()->radioAction("SEEK+") );
-            for(int i=0;i<6;i++){float x=pad+16+i*((leftW-32)/6f); float x2=pad+16+(i+1)*((leftW-32)/6f)-5; button(c,x,top+198,x2,top+238,String.valueOf(i+1),i+1==selectedPreset,()->{selectedPreset=i+1;invalidate();});}
+            for(int i=0;i<6;i++){ final int preset=i+1; float x=pad+16+i*((leftW-32)/6f); float x2=pad+16+(i+1)*((leftW-32)/6f)-5; button(c,x,top+198,x2,top+238,String.valueOf(preset),preset==selectedPreset,()->{selectedPreset=preset;invalidate();});}
             rect(c,pad,top+262,pad+leftW,top+326,Color.rgb(22,29,37),8); txt(c,"⌖",pad+28,top+302,24,Color.WHITE,Paint.Align.CENTER,false); txt(c,"Χάρτες",pad+54,top+300,18,Color.WHITE,Paint.Align.LEFT,false); txt(c,"›",pad+leftW-20,top+301,28,Color.LTGRAY,Paint.Align.CENTER,false);
             // center car
             rect(c,centerL,top,centerR,bottom,Color.rgb(12,17,22),8); if(car!=null){Rect src=new Rect(0,0,car.getWidth(),car.getHeight()); RectF dst=new RectF(centerL+12,top+65,centerR-12,bottom-40); c.drawBitmap(car,src,dst,p);} txt(c,"GRANDE PUNTO",(centerL+centerR)/2,top+42,15,Color.LTGRAY,Paint.Align.CENTER,true);
@@ -120,7 +121,7 @@ public class MainActivity extends Activity {
             float l=28,t=82,r=W-28; rect(c,l,t,r,H-22,Color.rgb(12,18,24),10); txt(c,"FM1",l+24,t+34,15,Color.LTGRAY,Paint.Align.LEFT,false); txt(c,frequency+" MHz",W/2,t+80,42,Color.WHITE,Paint.Align.CENTER,false); txt(c,"ΔΙΚΟ ΜΟΥ RADIO",W/2,t+108,15,Color.LTGRAY,Paint.Align.CENTER,true);
             line(c,l+55,t+145,r-55,t+145,Color.rgb(75,88,100),2); for(int i=0;i<12;i++) line(c,l+55+i*(r-l-110)/11f,t+137,l+55+i*(r-l-110)/11f,t+153,Color.rgb(100,110,120),1); txt(c,"87.5",l+55,t+178,12,Color.LTGRAY,Paint.Align.CENTER,false); txt(c,"98.7",W/2,t+178,12,Color.LTGRAY,Paint.Align.CENTER,false); txt(c,"108.0",r-55,t+178,12,Color.LTGRAY,Paint.Align.CENTER,false);
             button(c,W/2-250,t+200,W/2-150,t+255,"◀◀",false,()->radioAction("SEEK-")); button(c,W/2-135,t+200,W/2-35,t+255,"−",false,()->radioAction("TUNE-")); button(c,W/2-20,t+200,W/2+80,t+255,"+",false,()->radioAction("TUNE+")); button(c,W/2+95,t+200,W/2+195,t+255,"▶▶",false,()->radioAction("SEEK+")); button(c,W/2+210,t+200,W/2+310,t+255,"AUTO",false,()->radioAction("SCAN"));
-            for(int i=0;i<6;i++){float x=l+24+i*((r-l-48)/6f); float x2=l+24+(i+1)*((r-l-48)/6f)-7; button(c,x,t+278,x2,t+326,String.valueOf(i+1),i+1==selectedPreset,()->{selectedPreset=i+1;invalidate();});}
+            for(int i=0;i<6;i++){ final int preset=i+1; float x=l+24+i*((r-l-48)/6f); float x2=l+24+(i+1)*((r-l-48)/6f)-7; button(c,x,t+278,x2,t+326,String.valueOf(preset),preset==selectedPreset,()->{selectedPreset=preset;invalidate();});}
             txt(c,"RDS   •   ST   •   AF   •   TA",W/2,H-45,13,Color.LTGRAY,Paint.Align.CENTER,false);
         }
         void settings(Canvas c){
